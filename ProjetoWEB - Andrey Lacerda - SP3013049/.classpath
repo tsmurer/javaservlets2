@@ -11,5 +11,6 @@
 	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="WebContent/WEB-INF/javax.servlet.jar"/>
 	<classpathentry exported="true" kind="lib" path="WebContent/WEB-INF/sqlite-jdbc-3.27.2.1.jar"/>
+	<classpathentry kind="lib" path="WebContent/WEB-INF/web.xml"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

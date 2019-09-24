@@ -1,3 +1,6 @@
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html><head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,7 +10,8 @@
     <link href="lib/css/bootstrap.css" rel="stylesheet" type="text/css">
      <link href="lib/css/padrao.css" rel="stylesheet" type="text/css">
   
-  </head><body>
+  </head><body style="align-content: center;">
+  <%@ include file="topo.jsp" %>
     <div class="section section-danger text-justify">
       <div class="container">
         <div class="row text-center">
@@ -30,6 +34,15 @@
         </div>
       </div>
     </div>
+    <div class="section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12 text-center">
+          	<a href="logout.jsp" class="btn btn-danger text-center">Logout</button></a>
+          </div>
+        </div>
+      </div>
+    </div>
     <footer>
       <div class="navbar navbar-fixed-bottom bgred">
         <div class="container">
@@ -39,6 +52,4 @@
         </div>
       </div>
     </footer>
-  
-
 </body></html>

@@ -15,7 +15,7 @@
 			response.sendRedirect("cadastroAdmin.jsp");
 		} else{
 			session.setAttribute("admin", login);
-			response.sendRedirect("index.html");
+			response.sendRedirect("index.jsp");
 		}
 	} else{
 		
