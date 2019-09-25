@@ -4,7 +4,7 @@
 %>
 	<script>
 		alert("Usuário Não Logado");
-		location="login.jsp";
+		location="/ProjetoWEB/login.jsp";
 	</script>
 <%
 	}

@@ -109,14 +109,14 @@ public class Controlador extends HttpServlet {
 				PrintWriter out = response.getWriter();
 				out.println("<script type=\"text/javascript\">");
 				out.println("alert('Cliente Excluído!');");
-				out.println("location='/ProjetoWEB/clientes/index.html';");
+				out.println("location='/ProjetoWEB/clientes/index.jsp';");
 				out.println("</script>");
 				out.close();
 			} else {
 				PrintWriter out = response.getWriter();
 				out.println("<script type=\"text/javascript\">");
 				out.println("alert('Cliente Inexistente!');");
-				out.println("location='/ProjetoWEB/clientes/index.html';");
+				out.println("location='/ProjetoWEB/clientes/index.jsp';");
 				out.println("</script>");
 				out.close();
 			}
@@ -124,7 +124,7 @@ public class Controlador extends HttpServlet {
 			
 		} else {
 			if (validadorCPF.equals("false"))
-				response.sendRedirect("/ProjetoWEB/clientes/exclusao.html");
+				response.sendRedirect("/ProjetoWEB/clientes/exclusao.jsp");
 		}
 	}
 	
@@ -139,7 +139,7 @@ public class Controlador extends HttpServlet {
 				PrintWriter out = response.getWriter();
 				out.println("<script type=\"text/javascript\">");
 				out.println("alert('"+cliente.toString()+"');");
-				out.println("location='/ProjetoWEB/clientes/index.html';");
+				out.println("location='/ProjetoWEB/clientes/index.jsp';");
 				out.println("</script>");
 				out.close();
 			}
@@ -147,14 +147,14 @@ public class Controlador extends HttpServlet {
 				PrintWriter out = response.getWriter();
 				out.println("<script type=\"text/javascript\">");
 				out.println("alert('Cliente Inexistente!');");
-				out.println("location='/ProjetoWEB/clientes/index.html';");
+				out.println("location='/ProjetoWEB/clientes/index.jsp';");
 				out.println("</script>");
 				out.close();
 			}
 			
 		} else {
 			if (validadorCPF.equals("false"))
-				response.sendRedirect("/ProjetoWEB/clientes/consulta.html");
+				response.sendRedirect("/ProjetoWEB/clientes/consulta.jsp");
 		}
 	}
 	
@@ -175,14 +175,14 @@ public class Controlador extends HttpServlet {
 				PrintWriter out = response.getWriter();
 				out.println("<script type=\"text/javascript\">");
 				out.println("alert('Cliente Cadastrado!');");
-				out.println("location='/ProjetoWEB/clientes/index.html';");
+				out.println("location='/ProjetoWEB/clientes/index.jsp';");
 				out.println("</script>");
 				out.close();
 			} else {
 				PrintWriter out = response.getWriter();
 				out.println("<script type=\"text/javascript\">");
 				out.println("alert('Cliente já existente!');");
-				out.println("location='/ProjetoWEB/clientes/index.html';");
+				out.println("location='/ProjetoWEB/clientes/index.jsp';");
 				out.println("</script>");
 				out.close();
 			}
@@ -190,7 +190,7 @@ public class Controlador extends HttpServlet {
 			
 		} else {
 			if (validadorCPF.equals("false") || validadorEmail.equals("false"))
-				response.sendRedirect("/ProjetoWEB/clientes/cadastro.html");
+				response.sendRedirect("/ProjetoWEB/clientes/cadastro.jsp");
 		}
 	}
 	
@@ -211,7 +211,7 @@ public class Controlador extends HttpServlet {
 				PrintWriter out = response.getWriter();
 				out.println("<script type=\"text/javascript\">");
 				out.println("alert('Cliente Alterado!');");
-				out.println("location='/ProjetoWEB/clientes/index.html';");
+				out.println("location='/ProjetoWEB/clientes/index.jsp';");
 				out.println("</script>");
 				out.close();
 			}
@@ -219,14 +219,14 @@ public class Controlador extends HttpServlet {
 				PrintWriter out = response.getWriter();
 				out.println("<script type=\"text/javascript\">");
 				out.println("alert('Cliente Inexistente!');");
-				out.println("location='/ProjetoWEB/clientes/index.html';");
+				out.println("location='/ProjetoWEB/clientes/index.jsp';");
 				out.println("</script>");
 				out.close();
 			}
 			
 		} else {
 			if (validadorCPF.equals("false") || validadorEmail.equals("false"))
-				response.sendRedirect("/ProjetoWEB/clientes/alteracao.html");
+				response.sendRedirect("/ProjetoWEB/clientes/alteracao.jsp");
 		}
 	}
 	
@@ -251,14 +251,14 @@ public class Controlador extends HttpServlet {
 				PrintWriter out = response.getWriter();
 				out.println("<script type=\"text/javascript\">");
 				out.println("alert('Curso Excluído!');");
-				out.println("location='/ProjetoWEB/cursos/index.html';");
+				out.println("location='/ProjetoWEB/cursos/index.jsp';");
 				out.println("</script>");
 				out.close();
 			} else {
 				PrintWriter out = response.getWriter();
 				out.println("<script type=\"text/javascript\">");
 				out.println("alert('Curso Inexistente!');");
-				out.println("location='/ProjetoWEB/cursos/index.html';");
+				out.println("location='/ProjetoWEB/cursos/index.jsp';");
 				out.println("</script>");
 				out.close();
 			}
@@ -272,14 +272,14 @@ public class Controlador extends HttpServlet {
 			PrintWriter out = response.getWriter();
 			out.println("<script type=\"text/javascript\">");
 			out.println("alert('"+curso.toString()+"');");
-			out.println("location='/ProjetoWEB/cursos/index.html';");
+			out.println("location='/ProjetoWEB/cursos/index.jsp';");
 			out.println("</script>");
 			out.close();
 		} else {
 			PrintWriter out = response.getWriter();
 			out.println("<script type=\"text/javascript\">");
 			out.println("alert('Curso Inexistente!');");
-			out.println("location='/ProjetoWEB/cursos/index.html';");
+			out.println("location='/ProjetoWEB/cursos/index.jsp';");
 			out.println("</script>");
 			out.close();
 		}
@@ -299,14 +299,14 @@ public class Controlador extends HttpServlet {
 			PrintWriter out = response.getWriter();
 			out.println("<script type=\"text/javascript\">");
 			out.println("alert('Curso Cadastrado!');");
-			out.println("location='/ProjetoWEB/cursos/index.html';");
+			out.println("location='/ProjetoWEB/cursos/index.jsp';");
 			out.println("</script>");
 			out.close();
 		} else {
 			PrintWriter out = response.getWriter();
 			out.println("<script type=\"text/javascript\">");
 			out.println("alert('Curso já existente!');");
-			out.println("location='/ProjetoWEB/cursos/index.html';");
+			out.println("location='/ProjetoWEB/cursos/index.jsp';");
 			out.println("</script>");
 			out.close();
 		}
@@ -325,14 +325,14 @@ public class Controlador extends HttpServlet {
 			PrintWriter out = response.getWriter();
 			out.println("<script type=\"text/javascript\">");
 			out.println("alert('Curso Alterado!');");
-			out.println("location='/ProjetoWEB/cursos/index.html';");
+			out.println("location='/ProjetoWEB/cursos/index.jsp';");
 			out.println("</script>");
 			out.close();
 		} else {
 			PrintWriter out = response.getWriter();
 			out.println("<script type=\"text/javascript\">");
 			out.println("alert('Curso Inexistente!');");
-			out.println("location='/ProjetoWEB/cursos/index.html';");
+			out.println("location='/ProjetoWEB/cursos/index.jsp';");
 			out.println("</script>");
 			out.close();
 		}
@@ -360,14 +360,14 @@ public class Controlador extends HttpServlet {
 				PrintWriter out = response.getWriter();
 				out.println("<script type=\"text/javascript\">");
 				out.println("alert('Pagamento Excluído!');");
-				out.println("location='/ProjetoWEB/pagamentos/index.html';");
+				out.println("location='/ProjetoWEB/pagamentos/index.jsp';");
 				out.println("</script>");
 				out.close();
 			} else {
 				PrintWriter out = response.getWriter();
 				out.println("<script type=\"text/javascript\">");
 				out.println("alert('Pagamento Inexistente!');");
-				out.println("location='/ProjetoWEB/pagamentos/index.html';");
+				out.println("location='/ProjetoWEB/pagamentos/index.jsp';");
 				out.println("</script>");
 				out.close();
 			}
@@ -375,7 +375,7 @@ public class Controlador extends HttpServlet {
 			
 		} else {
 			if (validadorCPF.equals("false"))
-				response.sendRedirect("/ProjetoWEB/pagamentos/exclusao.html");
+				response.sendRedirect("/ProjetoWEB/pagamentos/exclusao.jsp");
 		}
 	}
 	
@@ -388,21 +388,21 @@ public class Controlador extends HttpServlet {
 				PrintWriter out = response.getWriter();
 				out.println("<script type=\"text/javascript\">");
 				out.println("alert('"+pg.toString()+"');");
-				out.println("location='/ProjetoWEB/pagamentos/index.html';");
+				out.println("location='/ProjetoWEB/pagamentos/index.jsp';");
 				out.println("</script>");
 				out.close();
 			} else {
 				PrintWriter out = response.getWriter();
 				out.println("<script type=\"text/javascript\">");
 				out.println("alert('Pagamento Inexistente!');");
-				out.println("location='/ProjetoWEB/pagamentos/index.html';");
+				out.println("location='/ProjetoWEB/pagamentos/index.jsp';");
 				out.println("</script>");
 				out.close();
 			}
 			
 		} else {
 			if (validadorCPF.equals("false"))
-				response.sendRedirect("/ProjetoWEB/pagamentos/consulta.html");
+				response.sendRedirect("/ProjetoWEB/pagamentos/consulta.jsp");
 		}
 	}
 	
@@ -418,21 +418,21 @@ public class Controlador extends HttpServlet {
 				PrintWriter out = response.getWriter();
 				out.println("<script type=\"text/javascript\">");
 				out.println("alert('Pagamento cadastrado!');");
-				out.println("location='/ProjetoWEB/pagamentos/index.html';");
+				out.println("location='/ProjetoWEB/pagamentos/index.jsp';");
 				out.println("</script>");
 				out.close();
 			} else {
 				PrintWriter out = response.getWriter();
 				out.println("<script type=\"text/javascript\">");
 				out.println("alert('Pagamento já existente!');");
-				out.println("location='/ProjetoWEB/pagamentos/index.html';");
+				out.println("location='/ProjetoWEB/pagamentos/index.jsp';");
 				out.println("</script>");
 				out.close();
 			}
 			
 		} else {
 			if (validadorCPF.equals("false"))
-				response.sendRedirect("/ProjetoWEB/pagamentos/cadastro.html");
+				response.sendRedirect("/ProjetoWEB/pagamentos/cadastro.jsp");
 		}
 	}
 	
@@ -449,21 +449,21 @@ public class Controlador extends HttpServlet {
 				PrintWriter out = response.getWriter();
 				out.println("<script type=\"text/javascript\">");
 				out.println("alert('Pagamento Alterado!');");
-				out.println("location='/ProjetoWEB/pagamentos/index.html';");
+				out.println("location='/ProjetoWEB/pagamentos/index.jsp';");
 				out.println("</script>");
 				out.close();
 			} else {
 				PrintWriter out = response.getWriter();
 				out.println("<script type=\"text/javascript\">");
 				out.println("alert('Pagamento Inexistente!');");
-				out.println("location='/ProjetoWEB/pagamentos/index.html';");
+				out.println("location='/ProjetoWEB/pagamentos/index.jsp';");
 				out.println("</script>");
 				out.close();
 			}
 			
 		} else {
 			if (validadorCPF.equals("false"))
-				response.sendRedirect("/ProjetoWEB/pagamentos/alteracao.html");
+				response.sendRedirect("/ProjetoWEB/pagamentos/alteracao.jsp");
 		}
 	}
 	

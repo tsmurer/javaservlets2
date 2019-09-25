@@ -11,6 +11,16 @@
     <link href="lib/css/padrao.css" rel="stylesheet" type="text/css">
     <script src="lib/js/callAutenticacao.js"></script>
   </head><body>
+  <%@ page import="Repositorios.AdministradorRepository, Classes.Administrador" %>
+  <% if (AdministradorRepository.getAdmins().size() == 0){
+	%>
+		<script>
+			alert("Cadastre o Administrador!");
+			location="cadastroAdmin.jsp";
+		</script>
+	<%
+		} else{
+	%>
     <div class="section section-danger text-justify">
       <div class="container">
         <div class="row text-center">
@@ -65,4 +75,7 @@
         </div>
       </div>
     </footer>
+    <%
+	}
+	%>
 </body></html>
