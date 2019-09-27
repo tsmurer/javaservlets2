@@ -10,7 +10,10 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry exported="true" kind="lib" path="WebContent/WEB-INF/javax.servlet.jar"/>
-	<classpathentry exported="true" kind="lib" path="WebContent/WEB-INF/sqlite-jdbc-3.27.2.1.jar"/>
-	<classpathentry kind="lib" path="WebContent/WEB-INF/web.xml"/>
+	<classpathentry exported="true" kind="lib" path="WebContent/WEB-INF/mysql-connector-java-5.1.30.jar"/>
+	<classpathentry exported="true" kind="lib" path="src/META-INF/eclipselink.jar"/>
+	<classpathentry exported="true" kind="lib" path="src/META-INF/javax.persistence-2.2.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="src/META-INF/persistance.xml"/>
+	<classpathentry exported="true" kind="lib" path="src/META-INF/hibernate-jpa-2.0-api-1.0.1.Final.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

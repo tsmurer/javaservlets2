@@ -1,27 +1,34 @@
 package Classes;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class Pagamento {
-	private String CPF;
+	
+	@Id
+	private String cpf;
+	@Id
 	private String curso;
 	private String dtInscricao;
 	
 	public Pagamento(String cpf, String curso, String dtInscricao) {
 		super();
-		this.CPF = cpf;
+		this.cpf = cpf;
 		this.curso = curso;
 		this.dtInscricao = dtInscricao;
 	}
 
 	@Override
 	public String toString() {
-		return "Pagamento [CPF=" + CPF + ", curso=" + curso + ", dtInscricao=" + dtInscricao + "]";
+		return "Pagamento [cpf=" + cpf + ", curso=" + curso + ", dtInscricao=" + dtInscricao + "]";
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((CPF == null) ? 0 : CPF.hashCode());
+		result = prime * result + ((cpf == null) ? 0 : cpf.hashCode());
 		result = prime * result + ((curso == null) ? 0 : curso.hashCode());
 		result = prime * result + ((dtInscricao == null) ? 0 : dtInscricao.hashCode());
 		return result;
@@ -36,10 +43,10 @@ public class Pagamento {
 		if (getClass() != obj.getClass())
 			return false;
 		Pagamento other = (Pagamento) obj;
-		if (CPF == null) {
-			if (other.CPF != null)
+		if (cpf == null) {
+			if (other.cpf != null)
 				return false;
-		} else if (!CPF.equals(other.CPF))
+		} else if (!cpf.equals(other.cpf))
 			return false;
 		if (curso == null) {
 			if (other.curso != null)
@@ -54,12 +61,12 @@ public class Pagamento {
 		return true;
 	}
 
-	public String getCPF() {
-		return CPF;
+	public String getcpf() {
+		return cpf;
 	}
 
-	public void setCPF(String cPF) {
-		CPF = cPF;
+	public void setcpf(String cpf) {
+		cpf = cpf;
 	}
 
 	public String getCurso() {

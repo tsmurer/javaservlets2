@@ -11,7 +11,6 @@
 				location="login.jsp";
 			</script>
 <%
-			response.sendRedirect("cadastroAdmin.jsp");
 		} else{
 			session.setAttribute("admin", login);
 			response.sendRedirect("index.jsp");

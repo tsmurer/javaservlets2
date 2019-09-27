@@ -21,26 +21,17 @@
         </div>
       </div>
     </div>
-    <div class="section">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-12 text-center">
-            <h3 class="tt_menu">&gt;&gt; CLIENTES - CONSULTAR TODOS OS CLIENTE &lt;&lt;</h3>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-md-12">
-            <form class="form-horizontal" role="form" id="form" name="form" method="post" action="../Controlador">
-              <div class="form-group">
-                <div class="col-md-12 text-center">
-                	<input type="hidden" name="formulario" value="cliente total">
-                  <button type="submit" class="btn btn-danger">Consultar</button>
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
+    <div class="col-md-12 text-center" style="margin-top: 50px !important">
+	    <h1>CLIENTE - CONSULTA TOTAL</h1>
+	    <div class="section">
+      		<div class="container">
+	        	<div class="row">
+	          		<div class="col-md-12 text-center corrigir">
+	            		<a class="btn btn-default" href="/ProjetoWEB/clientes/index.jsp">Voltar</a>
+		        	</div>
+		        </div>
+		    </div>
+	    </div>
     </div>
     <footer>
       <div class="navbar navbar-fixed-bottom bgred">
@@ -51,15 +42,5 @@
         </div>
       </div>
     </footer>
-    <div class="section">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-12 text-center corrigir">
-            <a class="btn btn-default" href="javascript:window.history.go(-1)">Voltar</a>
-          </div>
-        </div>
-      </div>
-    </div>
-  
-
+    
 </body></html>

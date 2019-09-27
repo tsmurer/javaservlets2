@@ -2,7 +2,11 @@ package Servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,9 +16,6 @@ import javax.servlet.http.HttpServletResponse;
 import Classes.Cliente;
 import Classes.Curso;
 import Classes.Pagamento;
-import Repositorios.ClienteRepository;
-import Repositorios.CursoRepository;
-import Repositorios.PagamentoRepository;
 
 /**
  * Servlet implementation class Controlador
@@ -35,6 +36,7 @@ public class Controlador extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
+		
 		String form = request.getParameter("formulario");
 		
 		if (form.contains("cliente")) {
@@ -49,9 +51,6 @@ public class Controlador extends HttpServlet {
 					else
 						if (form.equals("cliente consulta"))
 								clienteConsulta(request, response);
-						else
-							if (form.equals("cliente total"))
-								clienteConsultaTotal(request, response);
 		} else {
 			if (form.contains("curso")) {
 				if (form.equals("curso exclusao"))
@@ -65,9 +64,6 @@ public class Controlador extends HttpServlet {
 						else
 							if (form.equals("curso consulta"))
 								cursoConsulta(request, response);
-							else
-								if (form.equals("curso total"))
-									cursoConsultaTotal(request, response);
 			} else {
 				if (form.contains("pagamento")) {
 					if (form.equals("pagamento exclusao"))
@@ -81,9 +77,6 @@ public class Controlador extends HttpServlet {
 							else
 								if (form.equals("pagamento consulta"))
 									pagamentoConsulta(request, response);
-								else
-									if (form.equals("pagamento total"))
-										pagamentoConsultaTotal(request, response);
 				}
 			}
 		}
@@ -99,12 +92,17 @@ public class Controlador extends HttpServlet {
 	
 	private void clienteExclusao(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String validadorCPF = request.getParameter("validadorCPF");
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("LojaVirtual");
+		EntityManager em = emf.createEntityManager();
 		
 		if (validadorCPF.equals("true")) {
 			String cpf = request.getParameter("cpf");
-			Cliente cliente = ClienteRepository.getCliente(cpf);
+			Cliente cliente = em.find(Cliente.class, cpf);
+			
 			if (cliente != null) {
-				ClienteRepository.deleteCliente(cpf);
+				em.getTransaction().begin();
+				em.remove(cliente);
+				em.getTransaction().commit();
 				
 				PrintWriter out = response.getWriter();
 				out.println("<script type=\"text/javascript\">");
@@ -126,14 +124,19 @@ public class Controlador extends HttpServlet {
 			if (validadorCPF.equals("false"))
 				response.sendRedirect("/ProjetoWEB/clientes/exclusao.jsp");
 		}
+		em.close();
+		emf.close();
 	}
 	
 	private void clienteConsulta(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("LojaVirtual");
+		EntityManager em = emf.createEntityManager();
 		String validadorCPF = request.getParameter("validadorCPF");
 		
 		if (validadorCPF.equals("true")) {
 			String cpf = request.getParameter("cpf");
-			Cliente cliente = ClienteRepository.getCliente(cpf);
+			Cliente cliente = em.find(Cliente.class, cpf);
+
 			if (cliente != null) {
 				
 				PrintWriter out = response.getWriter();
@@ -156,21 +159,30 @@ public class Controlador extends HttpServlet {
 			if (validadorCPF.equals("false"))
 				response.sendRedirect("/ProjetoWEB/clientes/consulta.jsp");
 		}
+		em.close();
+		emf.close();
 	}
 	
 	private void clienteCadastro(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("LojaVirtual");
+		EntityManager em = emf.createEntityManager();
+		
 		String validadorCPF = request.getParameter("validadorCPF");
 		String validadorEmail = request.getParameter("validadorEmail");
 		
 		if (validadorCPF.equals("true") && validadorEmail.equals("true")) {
 			String cpf = request.getParameter("cpf");
-			Cliente cliente = ClienteRepository.getCliente(cpf);
+			
+			Cliente cliente = em.find(Cliente.class, cpf);
 			if (cliente == null) {
 				String nome = request.getParameter("nome");
 				String email = request.getParameter("email");
 				
 				Cliente clienteNovo = new Cliente(cpf, nome, email);
-				ClienteRepository.addCliente(clienteNovo);
+				
+				em.getTransaction().begin();
+				em.persist(clienteNovo);
+				em.getTransaction().commit();
 				
 				PrintWriter out = response.getWriter();
 				out.println("<script type=\"text/javascript\">");
@@ -192,21 +204,28 @@ public class Controlador extends HttpServlet {
 			if (validadorCPF.equals("false") || validadorEmail.equals("false"))
 				response.sendRedirect("/ProjetoWEB/clientes/cadastro.jsp");
 		}
+		em.close();
+		emf.close();
 	}
 	
 	private void clienteAlteracao(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String validadorCPF = request.getParameter("validadorCPF");
 		String validadorEmail = request.getParameter("validadorEmail");
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("LojaVirtual");
+		EntityManager em = emf.createEntityManager();
 		
 		if (validadorCPF.equals("true") && validadorEmail.equals("true")) {
 			String cpf = request.getParameter("cpf");
 			
-			Cliente cliente = ClienteRepository.getCliente(cpf);
+			Cliente cliente = em.find(Cliente.class, cpf);
 
 			if (cliente != null) {
 				String nome = request.getParameter("nome");
 				String email = request.getParameter("email");
-				ClienteRepository.updateCliente(cpf, nome, email);
+				em.getTransaction().begin();
+				em.setProperty(nome, cliente);
+				em.setProperty(email, cliente);
+				em.getTransaction().commit();
 				
 				PrintWriter out = response.getWriter();
 				out.println("<script type=\"text/javascript\">");
@@ -228,46 +247,46 @@ public class Controlador extends HttpServlet {
 			if (validadorCPF.equals("false") || validadorEmail.equals("false"))
 				response.sendRedirect("/ProjetoWEB/clientes/alteracao.jsp");
 		}
-	}
-	
-	private void clienteConsultaTotal(HttpServletRequest request, HttpServletResponse response) throws IOException{
-		PrintWriter out = response.getWriter();
-		if (ClienteRepository.getClientes().size() == 0) {
-			out.println("Nenhum cliente cadastrado");
-		} else {
-			for (Cliente cliente : ClienteRepository.getClientes())
-				out.println(cliente.toString());
-		}
-		out.close();
+		em.close();
+		emf.close();
 	}
 	
 	private void cursoExclusao(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("LojaVirtual");
+		EntityManager em = emf.createEntityManager();
 		
-			String cursoId = request.getParameter("cursoId");
-			Curso curso = CursoRepository.getCurso(cursoId);
-			if (curso != null) {
-				CursoRepository.deleteCurso(cursoId);
-				
-				PrintWriter out = response.getWriter();
-				out.println("<script type=\"text/javascript\">");
-				out.println("alert('Curso Excluído!');");
-				out.println("location='/ProjetoWEB/cursos/index.jsp';");
-				out.println("</script>");
-				out.close();
-			} else {
-				PrintWriter out = response.getWriter();
-				out.println("<script type=\"text/javascript\">");
-				out.println("alert('Curso Inexistente!');");
-				out.println("location='/ProjetoWEB/cursos/index.jsp';");
-				out.println("</script>");
-				out.close();
-			}
+		String cursoId = request.getParameter("cursoId");
+		Curso curso = em.find(Curso.class, cursoId);
+		if (curso != null) {
+			em.getTransaction().begin();
+			em.remove(curso);
+			em.getTransaction().commit();
+			
+			PrintWriter out = response.getWriter();
+			out.println("<script type=\"text/javascript\">");
+			out.println("alert('Curso Excluído!');");
+			out.println("location='/ProjetoWEB/cursos/index.jsp';");
+			out.println("</script>");
+			out.close();
+		} else {
+			PrintWriter out = response.getWriter();
+			out.println("<script type=\"text/javascript\">");
+			out.println("alert('Curso Inexistente!');");
+			out.println("location='/ProjetoWEB/cursos/index.jsp';");
+			out.println("</script>");
+			out.close();
+		}
+		em.close();
+		emf.close();
 	}
 	
-	private void cursoConsulta(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		String cursoId = request.getParameter("cursoId");
+	private void cursoConsulta(HttpServletRequest request, HttpServletResponse response) throws IOException {		
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("LojaVirtual");
+		EntityManager em = emf.createEntityManager();
 		
-		Curso curso = CursoRepository.getCurso(cursoId);
+		String cursoId = request.getParameter("cursoId");
+		Curso curso = em.find(Curso.class, cursoId);
+		
 		if (curso != null) {
 			PrintWriter out = response.getWriter();
 			out.println("<script type=\"text/javascript\">");
@@ -283,18 +302,26 @@ public class Controlador extends HttpServlet {
 			out.println("</script>");
 			out.close();
 		}
+		em.close();
+		emf.close();
 	}
 	
 	private void cursoCadastro(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		String cursoId = request.getParameter("cursoId");
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("LojaVirtual");
+		EntityManager em = emf.createEntityManager();
 		
-		Curso curso = CursoRepository.getCurso(cursoId);
+		String cursoId = request.getParameter("cursoId");
+		Curso curso = em.find(Curso.class, cursoId);
+		
 		if (curso == null) {
 			String nome = request.getParameter("nome");
 			String valor = request.getParameter("valor");
 			String site = request.getParameter("site");
 			Curso cursoNovo = new Curso(cursoId, nome, valor, site);
-			CursoRepository.addCurso(cursoNovo);
+			
+			em.getTransaction().begin();
+			em.persist(cursoNovo);
+			em.getTransaction().commit();
 			
 			PrintWriter out = response.getWriter();
 			out.println("<script type=\"text/javascript\">");
@@ -310,17 +337,28 @@ public class Controlador extends HttpServlet {
 			out.println("</script>");
 			out.close();
 		}
+		em.close();
+		emf.close();
 	}
 	
 	private void cursoAlteracao(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		String cursoId = request.getParameter("cursoId");
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("LojaVirtual");
+		EntityManager em = emf.createEntityManager();
 		
-		Curso curso = CursoRepository.getCurso(cursoId);
+		String cursoId = request.getParameter("cursoId");
+		Curso curso = em.find(Curso.class, cursoId);
+		
 		if (curso != null) {
-			curso.setCurso(cursoId);
-			curso.setNome(request.getParameter("nome"));
-			curso.setValor(request.getParameter("valor"));
-			curso.setSite(request.getParameter("site"));
+			String nome = request.getParameter("nome");
+			String valor = request.getParameter("valor");
+			String site = request.getParameter("site");
+			
+			em.getTransaction().begin();
+			em.setProperty(nome, curso);
+			em.setProperty(valor, curso);
+			em.setProperty(site, curso);
+			em.getTransaction().commit();
+			
 			
 			PrintWriter out = response.getWriter();
 			out.println("<script type=\"text/javascript\">");
@@ -336,26 +374,29 @@ public class Controlador extends HttpServlet {
 			out.println("</script>");
 			out.close();
 		}
-	}
-	
-	private void cursoConsultaTotal(HttpServletRequest request, HttpServletResponse response) throws IOException{
-		PrintWriter out = response.getWriter();
-		if (CursoRepository.getCursos().size() == 0) {
-			out.println("Nenhum curso cadastrado");
-		} else {
-			for (Curso curso : CursoRepository.getCursos())
-				out.println(curso.toString());
-		}
-		out.close();
+		em.close();
+		emf.close();
 	}
 	
 	private void pagamentoExclusao(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("LojaVirtual");
+		EntityManager em = emf.createEntityManager();
+		
 		String validadorCPF = request.getParameter("validadorCPF");
 		
 		if (validadorCPF.equals("true")) {
-			Pagamento pg = PagamentoRepository.getPagamentos(request.getParameter("cpf"), request.getParameter("cursoId"));
+			String cpf = request.getParameter("cpf");
+			String cursoId = request.getParameter("cursoId");
+			
+			List ids = null;
+			ids.add(cpf);
+			ids.add(cursoId);
+			Pagamento pg = em.find(Pagamento.class, ids);
 			if (pg != null) {
-				PagamentoRepository.deletePagamento(request.getParameter("cpf"), request.getParameter("cursoId"));
+				
+				em.getTransaction().begin();
+				em.remove(pg);
+				em.getTransaction().commit();
 				
 				PrintWriter out = response.getWriter();
 				out.println("<script type=\"text/javascript\">");
@@ -377,13 +418,22 @@ public class Controlador extends HttpServlet {
 			if (validadorCPF.equals("false"))
 				response.sendRedirect("/ProjetoWEB/pagamentos/exclusao.jsp");
 		}
+		em.close();
+		emf.close();
 	}
 	
 	private void pagamentoConsulta(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("LojaVirtual");
+		EntityManager em = emf.createEntityManager();
 		String validadorCPF = request.getParameter("validadorCPF");
 		
 		if (validadorCPF.equals("true")) {
-			Pagamento pg = PagamentoRepository.getPagamentos(request.getParameter("cpf"), request.getParameter("cursoId"));
+			String cpf = request.getParameter("cpf");
+			String cursoId = request.getParameter("cursoId");
+			List ids = null;
+			ids.add(cpf);
+			ids.add(cursoId);
+			Pagamento pg = em.find(Pagamento.class, ids);
 			if (pg != null) {
 				PrintWriter out = response.getWriter();
 				out.println("<script type=\"text/javascript\">");
@@ -404,16 +454,28 @@ public class Controlador extends HttpServlet {
 			if (validadorCPF.equals("false"))
 				response.sendRedirect("/ProjetoWEB/pagamentos/consulta.jsp");
 		}
+		em.close();
+		emf.close();
 	}
 	
 	private void pagamentoCadastro(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("LojaVirtual");
+		EntityManager em = emf.createEntityManager();
 		String validadorCPF = request.getParameter("validadorCPF");
 		
 		if (validadorCPF.equals("true")) {
-			Pagamento pg = PagamentoRepository.getPagamentos(request.getParameter("cpf"), request.getParameter("cursoId"));
+			String cpf = request.getParameter("cpf");
+			String cursoId = request.getParameter("cursoId");
+			List ids = null;
+			ids.add(cpf);
+			ids.add(cursoId);
+			Pagamento pg = em.find(Pagamento.class, ids);
 			if (pg == null) {
 				Pagamento pgNovo = new Pagamento(request.getParameter("cpf"), request.getParameter("cursoId"), request.getParameter("data"));
-				PagamentoRepository.addPagamento(pgNovo);
+				
+				em.getTransaction().begin();
+				em.persist(pgNovo);
+				em.getTransaction().commit();
 				
 				PrintWriter out = response.getWriter();
 				out.println("<script type=\"text/javascript\">");
@@ -434,17 +496,29 @@ public class Controlador extends HttpServlet {
 			if (validadorCPF.equals("false"))
 				response.sendRedirect("/ProjetoWEB/pagamentos/cadastro.jsp");
 		}
+		em.close();
+		emf.close();
 	}
 	
 	private void pagamentoAlteracao(HttpServletRequest request, HttpServletResponse response) throws IOException {
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("LojaVirtual");
+		EntityManager em = emf.createEntityManager();
 		String validadorCPF = request.getParameter("validadorCPF");
 		
 		if (validadorCPF.equals("true")) {
-			Pagamento pg = PagamentoRepository.getPagamentos(request.getParameter("cpf"), request.getParameter("cursoId"));
+			String cpf = request.getParameter("cpf");
+			String cursoId = request.getParameter("cursoId");
+			List ids = null;
+			ids.add(cpf);
+			ids.add(cursoId);
+			Pagamento pg = em.find(Pagamento.class, ids);
+			
 			if (pg != null) {
-				pg.setCPF(request.getParameter("cpf"));
-				pg.setCurso(request.getParameter("cursoId"));
-				pg.setDtInscricao(request.getParameter("data"));
+				String data = request.getParameter("data");
+				
+				em.getTransaction().begin();
+				em.setProperty(data, pg);
+				em.getTransaction().commit();
 				
 				PrintWriter out = response.getWriter();
 				out.println("<script type=\"text/javascript\">");
@@ -465,16 +539,7 @@ public class Controlador extends HttpServlet {
 			if (validadorCPF.equals("false"))
 				response.sendRedirect("/ProjetoWEB/pagamentos/alteracao.jsp");
 		}
-	}
-	
-	private void pagamentoConsultaTotal(HttpServletRequest request, HttpServletResponse response) throws IOException{
-		PrintWriter out = response.getWriter();
-		if (PagamentoRepository.getPagamentos().size() == 0) {
-			out.println("Nenhum pagamentos cadastrado");
-		} else {
-			for (Pagamento pg : PagamentoRepository.getPagamentos())
-				out.println(pg.toString());
-		}
-		out.close();
+		em.close();
+		emf.close();
 	}
 }
