@@ -26,6 +26,35 @@
 	    <div class="section">
       		<div class="container">
 	        	<div class="row">
+	        		<div class="col-md-12 text-center corrigir">
+	        			<%@ page import = "javax.persistence.EntityManager, 
+	        			javax.persistence.EntityManagerFactory,javax.persistence.Persistence, 
+	        			javax.persistence.TypedQuery, 
+	        			Classes.Pagamento, 
+	        			java.util.List" %>
+	            		<%
+	            			EntityManagerFactory emf = Persistence.createEntityManagerFactory("lojavirtual");
+	            			EntityManager em = emf.createEntityManager();
+	            			TypedQuery<Pagamento> query = em.createQuery("select p from Pagamento p", Pagamento.class); 
+	            			List<Pagamento> pagamentos = query.getResultList();
+	            			
+	            			if (pagamentos.size() == 0){
+	            		%>	
+	            			<p>Não Existem Pagamentos Cadastrados!</p>
+	            			<br>	
+	            		<%
+	            		
+	            			} else{
+	            				for (Pagamento pg : pagamentos){
+	            		%>	
+	            					<p style="color: white; "><%=pg.toString()%></p>
+	            					<br>
+	            		<%
+	            				}
+	            			}
+	            		%>
+	            		<br>
+		        	</div>
 	          		<div class="col-md-12 text-center corrigir">
 	            		<a class="btn btn-default" href="/ProjetoWEB/pagamentos/index.jsp">Voltar</a>
 		        	</div>

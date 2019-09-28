@@ -26,6 +26,35 @@
 	    <div class="section">
       		<div class="container">
 	        	<div class="row">
+	        		<div class="col-md-12 text-center corrigir">
+	        			<%@ page import = "javax.persistence.EntityManager, 
+	        			javax.persistence.EntityManagerFactory,javax.persistence.Persistence, 
+	        			javax.persistence.TypedQuery, 
+	        			Classes.Curso, 
+	        			java.util.List" %>
+	            		<%
+	            			EntityManagerFactory emf = Persistence.createEntityManagerFactory("lojavirtual");
+	            			EntityManager em = emf.createEntityManager();
+	            			TypedQuery<Curso> query = em.createQuery("select c from Curso c", Curso.class); 
+	            			List<Curso> cursos = query.getResultList();
+	            			
+	            			if (cursos.size() == 0){
+	            		%>	
+	            			<p>Não Existem Cursos Cadastrados!</p>
+	            			<br>
+	            		<%
+	            		
+	            			} else{
+	            				for (Curso cliente : cursos){
+	            		%>	
+	            					<p style="color: white; "><%=cliente.toString()%></p>
+	            					<br>
+	            		<%
+	            				}
+	            			}
+	            		%>
+	            		<br>
+		        	</div>
 	          		<div class="col-md-12 text-center corrigir">
 	            		<a class="btn btn-default" href="/ProjetoWEB/cursos/index.jsp">Voltar</a>
 		        	</div>

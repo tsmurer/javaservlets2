@@ -16,8 +16,9 @@ CREATE TABLE Curso (
 );
 
 CREATE TABLE Pagamento (
+	pgId	VARCHAR(275),
 	cpf 	VARCHAR(20),
 	curso	VARCHAR(255),
 	dtInscricao	VARCHAR(255),
-    PRIMARY KEY(cpf, curso)
+    PRIMARY KEY(pgId)
 );

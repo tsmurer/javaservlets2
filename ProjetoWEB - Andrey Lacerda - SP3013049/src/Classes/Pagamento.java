@@ -1,19 +1,26 @@
 package Classes;
 
+import java.io.Serializable;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 
 @Entity
-public class Pagamento {
+public class Pagamento implements Serializable{
 	
 	@Id
+	private String pgId;
 	private String cpf;
-	@Id
 	private String curso;
 	private String dtInscricao;
 	
+	public Pagamento() {
+		
+	}
+	
 	public Pagamento(String cpf, String curso, String dtInscricao) {
-		super();
+		this.pgId = cpf+curso;
 		this.cpf = cpf;
 		this.curso = curso;
 		this.dtInscricao = dtInscricao;

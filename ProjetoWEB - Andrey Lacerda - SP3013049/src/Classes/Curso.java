@@ -12,8 +12,10 @@ public class Curso {
 	private String valor;
 	private String site;
 	
+	public Curso() {  
+	} 
+	
 	public Curso(String curso, String nome, String valor, String site) {
-		super();
 		this.curso = curso;
 		this.nome = nome;
 		this.valor = valor;

@@ -2,7 +2,6 @@ package Servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -92,7 +91,7 @@ public class Controlador extends HttpServlet {
 	
 	private void clienteExclusao(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String validadorCPF = request.getParameter("validadorCPF");
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("LojaVirtual");
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("lojavirtual");
 		EntityManager em = emf.createEntityManager();
 		
 		if (validadorCPF.equals("true")) {
@@ -129,7 +128,7 @@ public class Controlador extends HttpServlet {
 	}
 	
 	private void clienteConsulta(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("LojaVirtual");
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("lojavirtual");
 		EntityManager em = emf.createEntityManager();
 		String validadorCPF = request.getParameter("validadorCPF");
 		
@@ -164,7 +163,7 @@ public class Controlador extends HttpServlet {
 	}
 	
 	private void clienteCadastro(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("LojaVirtual");
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("lojavirtual");
 		EntityManager em = emf.createEntityManager();
 		
 		String validadorCPF = request.getParameter("validadorCPF");
@@ -211,7 +210,7 @@ public class Controlador extends HttpServlet {
 	private void clienteAlteracao(HttpServletRequest request, HttpServletResponse response) throws IOException {
 		String validadorCPF = request.getParameter("validadorCPF");
 		String validadorEmail = request.getParameter("validadorEmail");
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("LojaVirtual");
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("lojavirtual");
 		EntityManager em = emf.createEntityManager();
 		
 		if (validadorCPF.equals("true") && validadorEmail.equals("true")) {
@@ -222,9 +221,10 @@ public class Controlador extends HttpServlet {
 			if (cliente != null) {
 				String nome = request.getParameter("nome");
 				String email = request.getParameter("email");
+				cliente.setEmail(email);
+				cliente.setNome(nome);
 				em.getTransaction().begin();
-				em.setProperty(nome, cliente);
-				em.setProperty(email, cliente);
+				em.merge(cliente);
 				em.getTransaction().commit();
 				
 				PrintWriter out = response.getWriter();
@@ -252,7 +252,7 @@ public class Controlador extends HttpServlet {
 	}
 	
 	private void cursoExclusao(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("LojaVirtual");
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("lojavirtual");
 		EntityManager em = emf.createEntityManager();
 		
 		String cursoId = request.getParameter("cursoId");
@@ -281,7 +281,7 @@ public class Controlador extends HttpServlet {
 	}
 	
 	private void cursoConsulta(HttpServletRequest request, HttpServletResponse response) throws IOException {		
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("LojaVirtual");
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("lojavirtual");
 		EntityManager em = emf.createEntityManager();
 		
 		String cursoId = request.getParameter("cursoId");
@@ -307,7 +307,7 @@ public class Controlador extends HttpServlet {
 	}
 	
 	private void cursoCadastro(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("LojaVirtual");
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("lojavirtual");
 		EntityManager em = emf.createEntityManager();
 		
 		String cursoId = request.getParameter("cursoId");
@@ -342,7 +342,7 @@ public class Controlador extends HttpServlet {
 	}
 	
 	private void cursoAlteracao(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("LojaVirtual");
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("lojavirtual");
 		EntityManager em = emf.createEntityManager();
 		
 		String cursoId = request.getParameter("cursoId");
@@ -352,11 +352,13 @@ public class Controlador extends HttpServlet {
 			String nome = request.getParameter("nome");
 			String valor = request.getParameter("valor");
 			String site = request.getParameter("site");
+	
+			curso.setNome(nome);
+			curso.setSite(site);
+			curso.setValor(valor);
 			
 			em.getTransaction().begin();
-			em.setProperty(nome, curso);
-			em.setProperty(valor, curso);
-			em.setProperty(site, curso);
+			em.merge(curso);
 			em.getTransaction().commit();
 			
 			
@@ -379,19 +381,16 @@ public class Controlador extends HttpServlet {
 	}
 	
 	private void pagamentoExclusao(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("LojaVirtual");
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("lojavirtual");
 		EntityManager em = emf.createEntityManager();
 		
 		String validadorCPF = request.getParameter("validadorCPF");
 		
 		if (validadorCPF.equals("true")) {
 			String cpf = request.getParameter("cpf");
-			String cursoId = request.getParameter("cursoId");
+			String cursoId = request.getParameter("cursoId");			
 			
-			List ids = null;
-			ids.add(cpf);
-			ids.add(cursoId);
-			Pagamento pg = em.find(Pagamento.class, ids);
+			Pagamento pg = em.find(Pagamento.class, cpf+cursoId);
 			if (pg != null) {
 				
 				em.getTransaction().begin();
@@ -423,17 +422,15 @@ public class Controlador extends HttpServlet {
 	}
 	
 	private void pagamentoConsulta(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("LojaVirtual");
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("lojavirtual");
 		EntityManager em = emf.createEntityManager();
 		String validadorCPF = request.getParameter("validadorCPF");
 		
 		if (validadorCPF.equals("true")) {
 			String cpf = request.getParameter("cpf");
 			String cursoId = request.getParameter("cursoId");
-			List ids = null;
-			ids.add(cpf);
-			ids.add(cursoId);
-			Pagamento pg = em.find(Pagamento.class, ids);
+
+			Pagamento pg = em.find(Pagamento.class, cpf+cursoId);
 			if (pg != null) {
 				PrintWriter out = response.getWriter();
 				out.println("<script type=\"text/javascript\">");
@@ -459,17 +456,15 @@ public class Controlador extends HttpServlet {
 	}
 	
 	private void pagamentoCadastro(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("LojaVirtual");
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("lojavirtual");
 		EntityManager em = emf.createEntityManager();
 		String validadorCPF = request.getParameter("validadorCPF");
 		
 		if (validadorCPF.equals("true")) {
 			String cpf = request.getParameter("cpf");
 			String cursoId = request.getParameter("cursoId");
-			List ids = null;
-			ids.add(cpf);
-			ids.add(cursoId);
-			Pagamento pg = em.find(Pagamento.class, ids);
+		
+			Pagamento pg = em.find(Pagamento.class, cpf+cursoId);
 			if (pg == null) {
 				Pagamento pgNovo = new Pagamento(request.getParameter("cpf"), request.getParameter("cursoId"), request.getParameter("data"));
 				
@@ -501,23 +496,22 @@ public class Controlador extends HttpServlet {
 	}
 	
 	private void pagamentoAlteracao(HttpServletRequest request, HttpServletResponse response) throws IOException {
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("LojaVirtual");
+		EntityManagerFactory emf = Persistence.createEntityManagerFactory("lojavirtual");
 		EntityManager em = emf.createEntityManager();
 		String validadorCPF = request.getParameter("validadorCPF");
 		
 		if (validadorCPF.equals("true")) {
 			String cpf = request.getParameter("cpf");
 			String cursoId = request.getParameter("cursoId");
-			List ids = null;
-			ids.add(cpf);
-			ids.add(cursoId);
-			Pagamento pg = em.find(Pagamento.class, ids);
+			Pagamento pg = em.find(Pagamento.class, cpf+cursoId);
 			
 			if (pg != null) {
 				String data = request.getParameter("data");
 				
+				pg.setDtInscricao(data);
+				
 				em.getTransaction().begin();
-				em.setProperty(data, pg);
+				em.merge(pg);
 				em.getTransaction().commit();
 				
 				PrintWriter out = response.getWriter();
